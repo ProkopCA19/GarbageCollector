@@ -30,6 +30,9 @@
             @Html.DisplayNameFor(model => model.Trashbalance)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.BonusPickup)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Zipcode.Areacode)
         </th>
         <th>
@@ -59,16 +62,19 @@
             @Html.DisplayFor(modelItem => item.Trashbalance)
         </td>
         <td>
+            @Html.DisplayFor(modelItem => item.BonusPickup)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Zipcode.Areacode)
         </td>
-   
+
         <td>
             @Html.DisplayFor(modelItem => item.Pickup.DayOfWeek)
         </td>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
-            @Html.ActionLink("Details", "Details", new { id=item.CustomerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID })
+            @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
         </td>
     </tr>
 }

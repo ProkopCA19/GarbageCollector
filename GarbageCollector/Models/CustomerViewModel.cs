@@ -18,6 +18,8 @@ namespace GarbageCollector.Models
         public int Zipcode { get; set; }
         public string PickupDay { get; set; }
         public bool PickupCompleted { get; set; }
+
+        public DateTime? BonusPickup { get; set; }
        
     }
 }

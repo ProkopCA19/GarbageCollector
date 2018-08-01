@@ -17,6 +17,10 @@ namespace GarbageCollector.Models
         public string City { get; set; }
         public string State { get; set; }
         public double Trashbalance { get; set; }
+        [Display(Name = "Bonus Pickup Day")]
+        public DateTime? BonusPickup { get; set; }
+        
+
 
 
         [ForeignKey("Zipcode")]

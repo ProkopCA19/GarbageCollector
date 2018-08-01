@@ -60,7 +60,7 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,Zipcode,PickupDay,Areacode,DayOfWeek")] CustomerViewModel cvm)
+            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,Zipcode,PickupDay,Areacode,DayOfWeek,BonusPickup")] CustomerViewModel cvm)
             {
                 string currentUserId = User.Identity.GetUserId();
                 var customer = new Customer();
@@ -72,6 +72,7 @@ namespace GarbageCollector.Controllers
                 customer.City = cvm.City;
                 customer.State = cvm.State;
                 customer.Trashbalance = cvm.Trashbalance;
+                customer.BonusPickup = cvm.BonusPickup;
                 customer.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
                 
          
@@ -103,7 +104,7 @@ namespace GarbageCollector.Controllers
                     cvm.City = cvm.customer.City;
                     cvm.State = cvm.customer.State;
                     cvm.Trashbalance = cvm.customer.Trashbalance;
-                   
+                    cvm.BonusPickup = cvm.BonusPickup;
                     cvm.PickupDay = db.Pickup.Where(p => p.PickupID == cvm.customer.PickupId).FirstOrDefault().DayOfWeek;
                     cvm.Zipcode = db.Zipcode.Where(z => z.ZipId == cvm.customer.ZipId).FirstOrDefault().Areacode;
                     cvm.PickupCompleted = cvm.customer.Pickup.PickUpCompleted;
@@ -131,6 +132,7 @@ namespace GarbageCollector.Controllers
                 customerToEdit.City = cvm.City;
                 customerToEdit.State = cvm.State;
                 customerToEdit.Trashbalance = cvm.Trashbalance;
+                customerToEdit.BonusPickup = cvm.BonusPickup;
                 customerToEdit.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
                 customerToEdit.PickupId = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault().PickupID;
                 customerToEdit.Pickup.PickUpCompleted = cvm.PickupCompleted;

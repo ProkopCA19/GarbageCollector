@@ -39,6 +39,9 @@
         <th>
             @Html.DisplayNameFor(model => model.Pickup.PickUpCompleted)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.BonusPickup)
+        </th>
         <th></th>
     </tr>
 
@@ -72,7 +75,9 @@
         <td>
             @Html.DisplayFor(modelItem => item.Pickup.PickUpCompleted)
         </td>
-
+        <td>
+            @Html.DisplayFor(modelItem => item.BonusPickup)
+        </td>
 
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
