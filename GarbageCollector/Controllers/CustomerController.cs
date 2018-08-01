@@ -18,39 +18,23 @@ namespace GarbageCollector.Controllers
         // GET: Customers
         public ActionResult Index()
         {
-
-            if (User.Identity.IsAuthenticated && User.IsInRole("Employee"))
-            {
-                var user = User.Identity;
-                ViewBag.Name = user.Name;
-                ViewBag.DisplayMenu = "Yes";
-
-                var customers = db.Customer.Include(z => z.Zipcode);
-                return View(customers.ToList());
-            }
-            else
-            {
-                ViewBag.Name = "Not valid";
-            }
-            return View();
+            var customerList = db.Customer.Include(m => m.Zipcode).Include(p=>p.Pickup).ToList();
+            return View(customerList);
         }
            
 
-
-    
-    
-    
 
 
 
             // GET: Customers/Details/5
             public ActionResult Details(int? id)
             {
+
                 if (id == null)
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                Customer customer = db.Customer.Find(id);
+                Customer customer = db.Customer.Include(m => m.Zipcode).Include(p => p.Pickup).Where(c=>c.CustomerID==id).FirstOrDefault();
                 if (customer == null)
                 {
                     return HttpNotFound();
@@ -69,18 +53,26 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID")] Customer customer)
+            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,Zipcode,PickupDay,Areacode,DayOfWeek")] CustomerViewModel cvm)
             {
                 string currentUserId = User.Identity.GetUserId();
-                ApplicationUser newUser = new ApplicationUser();
+                var customer = new Customer();
+                customer.UserId = currentUserId;
+                customer.PickupId = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault().PickupID;
+                customer.FirstName = cvm.FirstName;
+                customer.LastName = cvm.LastName;
+                customer.Address = cvm.Address;
+                customer.City = cvm.City;
+                customer.State = cvm.State;
+                customer.Trashbalance = cvm.Trashbalance;
+                customer.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
 
-                if (ModelState.IsValid)
-                {
-                    customer.UserId = currentUserId;
-                    db.Customer.Add(customer);
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
+            if (ModelState.IsValid)
+            {
+                db.Customer.Add(customer);
+                db.SaveChanges();
+                return RedirectToAction("Details");
+            }
 
                 return View(customer);
             }

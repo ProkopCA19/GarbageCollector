@@ -18,9 +18,8 @@ namespace GarbageCollector.Controllers
         // GET: Employees
         public ActionResult Index()
         {
-            string userID = User.Identity.GetUserId();
-            var currentUser = db.Employee.Where(x => x.UserId == userID).Select(x => x).FirstOrDefault();
-            return View(currentUser);
+            var employeeList = db.Employee.ToList();
+            return View(employeeList);
         }
 
         // GET: Employees/Details/5
@@ -49,15 +48,19 @@ namespace GarbageCollector.Controllers
         // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public ActionResult Create([Bind(Include = "EmployeeID,FirstName,LastName,ZipId,UserId")] Employee employee)
+        public ActionResult Create([Bind(Include = "EmployeeID,FirstName,LastName,ZipId,UserId,ZipCode")] EmployeeViewModel evm)
         {
             string currentUserId = User.Identity.GetUserId();
+            var employee = new Employee();
+            employee.UserId = currentUserId;
+            employee.FirstName = evm.FirstName;
+            employee.LastName = evm.LastName;
+            employee.ZipId = db.Zipcode.Where(z => z.Areacode == evm.ZipCode).FirstOrDefault().ZipId;
             if (ModelState.IsValid)
             {
-                employee.UserId = currentUserId;
                 db.Employee.Add(employee);
                 db.SaveChanges();
-                return RedirectToAction("Index");
+                return RedirectToAction("Index", "Employee");
             }
 
             return View(employee);
@@ -70,7 +73,7 @@ namespace GarbageCollector.Controllers
             {
                 return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
             }
-            Employee employee = db.Employee.Find(id);
+            Employee employee = db.Employee.Include(e=>e.Zipcode).Where(c=>c.EmployeeID ==id).FirstOrDefault();
             if (employee == null)
             {
                 return HttpNotFound();
@@ -127,6 +130,16 @@ namespace GarbageCollector.Controllers
                 db.Dispose();
             }
             base.Dispose(disposing);
+        }
+
+        public ActionResult Dailypickups()
+        {
+            var userId = User.Identity.GetUserId();
+            var employeeZipCode = db.Employee.Where(c => c.UserId == userId).Select(c => c.Zipcode.Areacode).FirstOrDefault();
+
+            var dailyPickUps = db.Customer.Where(p => p.Zipcode.Areacode == employeeZipCode).Select(p => p).ToList();
+
+            return View(dailyPickUps);
         }
     }
 }

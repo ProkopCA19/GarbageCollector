@@ -17,6 +17,7 @@ namespace GarbageCollector.Models
 
 
         [ForeignKey("Zipcode")]
+        [Display(Name ="Zipcode")]
         public int ZipId { get; set; }
         public Zipcode Zipcode { get; set; }
 

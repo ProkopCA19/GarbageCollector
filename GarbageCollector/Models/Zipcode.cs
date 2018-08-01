@@ -11,7 +11,9 @@ namespace GarbageCollector.Models
 
         [Key]
 
-        public int ZipId { get; set; }
+        public int ZipId{ get; set; }
+
+        public int Areacode { get; set; }
 
     }
 }

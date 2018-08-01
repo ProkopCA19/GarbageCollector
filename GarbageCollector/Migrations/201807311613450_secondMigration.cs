@@ -3,16 +3,16 @@ namespace GarbageCollector.Migrations
     using System;
     using System.Data.Entity.Migrations;
     
-    public partial class firstMigration : DbMigration
+    public partial class secondMigration : DbMigration
     {
         public override void Up()
         {
-            AddColumn("dbo.AspNetUsers", "UserRole", c => c.String());
+            AddColumn("dbo.Zipcodes", "Areacode", c => c.Int(nullable: false));
         }
         
         public override void Down()
         {
-            DropColumn("dbo.AspNetUsers", "UserRole");
+            DropColumn("dbo.Zipcodes", "Areacode");
         }
     }
 }

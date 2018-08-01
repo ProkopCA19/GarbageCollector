@@ -79,7 +79,13 @@ namespace GarbageCollector.Controllers
             switch (result)
             {
                 case SignInStatus.Success:
-                    return RedirectToLocal(returnUrl);
+                    if (User.IsInRole("Employee"))
+                    {
+                        return RedirectToAction("Index", "Customer");
+                    }
+                    else
+                        return RedirectToLocal(returnUrl);
+                 
                 case SignInStatus.LockedOut:
                     return View("Lockout");
                 case SignInStatus.RequiresVerification:
@@ -163,6 +169,15 @@ namespace GarbageCollector.Controllers
                     // var callbackUrl = Url.Action("ConfirmEmail", "Account", new { userId = user.Id, code = code }, protocol: Request.Url.Scheme);
                     // await UserManager.SendEmailAsync(user.Id, "Confirm your account", "Please confirm your account by clicking <a href=\"" + callbackUrl + "\">here</a>");
                     await this.UserManager.AddToRoleAsync(user.Id, model.UserRole);
+                    if (model.UserRole == "Employee")
+                    {
+                        return RedirectToAction("Create", "Employee");
+                    }
+                    else if (model.UserRole == "Customer")
+                    {
+                        return RedirectToAction("Create", "Customer");
+                    }
+
                     return RedirectToAction("Index", "Home");
                 }
                 AddErrors(result);
