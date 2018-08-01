@@ -12,7 +12,7 @@ namespace GarbageCollector.Models
         [Key]
 
         public int ZipId{ get; set; }
-
+        [Display(Name = "Zipcode")]
         public int Areacode { get; set; }
 
     }

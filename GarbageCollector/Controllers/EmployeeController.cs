@@ -132,14 +132,13 @@ namespace GarbageCollector.Controllers
             base.Dispose(disposing);
         }
 
-        public ActionResult Dailypickups()
+
+
+        public ActionResult FindCustomerByDay()
         {
-            var userId = User.Identity.GetUserId();
-            var employeeZipCode = db.Employee.Where(c => c.UserId == userId).Select(c => c.Zipcode.Areacode).FirstOrDefault();
-
-            var dailyPickUps = db.Customer.Where(p => p.Zipcode.Areacode == employeeZipCode).Select(p => p).ToList();
-
-            return View(dailyPickUps);
+            var customers = db.Customer.Include(e => e.Zipcode).Include(a=>a.Pickup).Where(c => c.PickupId == 1).ToList();
+            return View(customers);
         }
+
     }
 }

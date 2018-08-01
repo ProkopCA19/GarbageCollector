@@ -1,0 +1,58 @@
+﻿@model IEnumerable<GarbageCollector.Models.Customer>
+
+@{
+    ViewBag.Title = "FindCustomerByDay";
+}
+
+<h2>FindCustomerByDay</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.FirstName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.LastName)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pickup.DayOfWeek)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Address)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Zipcode.Areacode)
+        </th>
+
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.FirstName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.LastName)
+        </td>
+        <th>
+            @Html.DisplayFor(modelItem => item.Pickup.DayOfWeek)
+        </th>
+        <th>
+            @Html.DisplayFor(modelItem => item.Address)
+        </th>
+        <td>
+            @Html.DisplayFor(modelItem => item.Zipcode.Areacode)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
+            @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+        </td>
+    </tr>
+}
+
+</table>

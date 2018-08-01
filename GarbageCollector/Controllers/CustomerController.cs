@@ -71,7 +71,7 @@ namespace GarbageCollector.Controllers
             {
                 db.Customer.Add(customer);
                 db.SaveChanges();
-                return RedirectToAction("Details");
+                return RedirectToAction("Index");
             }
 
                 return View(customer);
@@ -84,12 +84,24 @@ namespace GarbageCollector.Controllers
                 {
                     return new HttpStatusCodeResult(HttpStatusCode.BadRequest);
                 }
-                Customer customer = db.Customer.Find(id);
-                if (customer == null)
+                    Customer customer = db.Customer.Find(id);
+                    CustomerViewModel cvm = new CustomerViewModel();
+                    cvm.customer = customer;
+                    cvm.CustomerID = cvm.customer.CustomerID;
+                    cvm.FirstName = cvm.customer.FirstName;
+                    cvm.LastName = cvm.customer.LastName;
+                    cvm.Address = cvm.customer.Address;
+                    cvm.City = cvm.customer.City;
+                    cvm.State = cvm.customer.State;
+                    cvm.Trashbalance = cvm.customer.Trashbalance;
+                    cvm.PickupDay = db.Pickup.Where(p => p.PickupID == cvm.customer.PickupId).FirstOrDefault().DayOfWeek;
+                    cvm.Zipcode = db.Zipcode.Where(z => z.ZipId == cvm.customer.ZipId).FirstOrDefault().Areacode;
+
+            if (customer == null)
                 {
-                    return HttpNotFound();
+                   return HttpNotFound();
                 }
-                return View(customer);
+                   return View(cvm);
             }
 
             // POST: Customers/Edit/5
@@ -97,16 +109,30 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID")] Customer customer)
+            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,DayOfWeek,Zipcode,PickupDay")] CustomerViewModel cvm)
             {
-                if (ModelState.IsValid)
-                {
-                    db.Entry(customer).State = EntityState.Modified;
-                    db.SaveChanges();
-                    return RedirectToAction("Index");
-                }
-                return View(customer);
+            if (ModelState.IsValid)
+            {
+                var customerToEdit = db.Customer.Where(s => s.CustomerID == cvm.CustomerID).FirstOrDefault();
+                customerToEdit.FirstName = cvm.FirstName;
+                customerToEdit.LastName = cvm.LastName;
+                customerToEdit.Address = cvm.Address;
+                customerToEdit.City = cvm.City;
+                customerToEdit.State = cvm.State;
+                customerToEdit.Trashbalance = cvm.Trashbalance;
+                customerToEdit.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
+                customerToEdit.PickupId = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault().PickupID;
+
+                db.SaveChanges();
+
+
             }
+
+                return RedirectToAction("Index");
+            }
+    
+                
+            
 
             // GET: Customers/Delete/5
             public ActionResult Delete(int? id)
@@ -143,6 +169,15 @@ namespace GarbageCollector.Controllers
                 base.Dispose(disposing);
             }
 
-            
+
+        public ActionResult Dailypickups()
+        {
+            var userId = User.Identity.GetUserId();
+            var employeeZipCode = db.Employee.Where(c => c.UserId == userId).Select(c => c.Zipcode.Areacode).FirstOrDefault();
+
+            var dailyPickUps = db.Customer.Include(m => m.Zipcode).Include(p => p.Pickup).Where(p => p.Zipcode.Areacode == employeeZipCode).Select(p => p).ToList();
+
+            return View(dailyPickUps);
         }
+    }
 }

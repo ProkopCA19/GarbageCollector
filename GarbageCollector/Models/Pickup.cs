@@ -11,6 +11,7 @@ namespace GarbageCollector.Models
     {
         [Key]
         public int PickupID { get; set; }
+        [Display(Name ="Pickup Day")]
         public string DayOfWeek { get; set; }
         public bool PickUpCompleted { get; set; }
 
