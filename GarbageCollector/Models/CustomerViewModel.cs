@@ -17,6 +17,7 @@ namespace GarbageCollector.Models
         public double Trashbalance { get; set; }
         public int Zipcode { get; set; }
         public string PickupDay { get; set; }
+        public bool PickupCompleted { get; set; }
        
     }
 }

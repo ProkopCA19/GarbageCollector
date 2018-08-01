@@ -24,8 +24,18 @@
             @Html.DisplayNameFor(model => model.Address)
         </th>
         <th>
+            @Html.DisplayNameFor(model => model.City)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.State)
+        </th>
+        <th>
             @Html.DisplayNameFor(model => model.Zipcode.Areacode)
         </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Pickup.PickUpCompleted)
+        </th>
+
 
         <th></th>
     </tr>
@@ -45,8 +55,18 @@
             @Html.DisplayFor(modelItem => item.Address)
         </th>
         <td>
+            @Html.DisplayFor(modelItem => item.City)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.State)
+        </td>
+        <td>
             @Html.DisplayFor(modelItem => item.Zipcode.Areacode)
         </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Pickup.PickUpCompleted)
+        </td>
+
         <td>
             @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
             @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |

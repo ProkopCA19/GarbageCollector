@@ -73,6 +73,8 @@ namespace GarbageCollector.Controllers
                 customer.State = cvm.State;
                 customer.Trashbalance = cvm.Trashbalance;
                 customer.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
+                
+         
 
             if (ModelState.IsValid)
             {
@@ -101,8 +103,10 @@ namespace GarbageCollector.Controllers
                     cvm.City = cvm.customer.City;
                     cvm.State = cvm.customer.State;
                     cvm.Trashbalance = cvm.customer.Trashbalance;
+                   
                     cvm.PickupDay = db.Pickup.Where(p => p.PickupID == cvm.customer.PickupId).FirstOrDefault().DayOfWeek;
                     cvm.Zipcode = db.Zipcode.Where(z => z.ZipId == cvm.customer.ZipId).FirstOrDefault().Areacode;
+                    cvm.PickupCompleted = cvm.customer.Pickup.PickUpCompleted;
 
             if (customer == null)
                 {
@@ -116,7 +120,7 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,DayOfWeek,Zipcode,PickupDay")] CustomerViewModel cvm)
+            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,DayOfWeek,Zipcode,PickupDay,PickUpCompleted,Pickup")] CustomerViewModel cvm)
             {
             if (ModelState.IsValid)
             {
@@ -129,6 +133,8 @@ namespace GarbageCollector.Controllers
                 customerToEdit.Trashbalance = cvm.Trashbalance;
                 customerToEdit.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
                 customerToEdit.PickupId = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault().PickupID;
+                customerToEdit.Pickup.PickUpCompleted = cvm.PickupCompleted;
+
 
                 db.SaveChanges();
 

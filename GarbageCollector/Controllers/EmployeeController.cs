@@ -136,7 +136,7 @@ namespace GarbageCollector.Controllers
 
         public ActionResult FindCustomerByDay()
         {
-            var customers = db.Customer.Include(e => e.Zipcode).Include(a=>a.Pickup).Where(c => c.PickupId == 1).ToList();
+            var customers = db.Customer.Include(e => e.Zipcode).Include(a=>a.Pickup).Where(c => c.PickupId == 5).ToList();
             return View(customers);
         }
 
