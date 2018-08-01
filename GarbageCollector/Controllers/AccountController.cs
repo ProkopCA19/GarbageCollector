@@ -81,7 +81,7 @@ namespace GarbageCollector.Controllers
                 case SignInStatus.Success:
                     if (User.IsInRole("Employee"))
                     {
-                        return RedirectToAction("Index", "Customer");
+                        return RedirectToAction("Dailypickups", "Customer");
                     }
                     else
                         return RedirectToLocal(returnUrl);

@@ -231,7 +231,10 @@
     <Content Include="Content\bootstrap-theme.min.css" />
     <Content Include="Content\bootstrap.css" />
     <Content Include="Content\bootstrap.min.css" />
+    <Content Include="Content\garbage.jpg" />
     <Content Include="Content\paper.css" />
+    <Content Include="Content\recycling.jpg" />
+    <Content Include="Content\recycling3.jpg" />
     <Content Include="Content\yeti.css" />
     <Content Include="Views\favicon.ico" />
     <Content Include="fonts\glyphicons-halflings-regular.svg" />
@@ -268,7 +271,7 @@
     <Content Include="Views\Home\Contact.cshtml" />
     <Content Include="Views\Home\Index.cshtml" />
     <Content Include="Views\Account\_ExternalLoginsListPartial.cshtml" />
-    <Content Include="Views\Account\ConfirmEmail.cshtml" />
+    <Content Include="Views\ConfirmEmail.cshtml" />
     <Content Include="Views\Account\ExternalLoginConfirmation.cshtml" />
     <Content Include="Views\Account\ExternalLoginFailure.cshtml" />
     <Content Include="Views\Account\ForgotPassword.cshtml" />
@@ -310,6 +313,7 @@
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
     <Content Include="Views\Employee\FindCustomerByDay.cshtml" />
     <Content Include="Views\Customer\Dailypickups.cshtml" />
+    <Content Include="Views\Customer\singleIndex.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

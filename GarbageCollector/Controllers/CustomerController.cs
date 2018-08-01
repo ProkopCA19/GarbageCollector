@@ -21,6 +21,13 @@ namespace GarbageCollector.Controllers
             var customerList = db.Customer.Include(m => m.Zipcode).Include(p=>p.Pickup).ToList();
             return View(customerList);
         }
+
+        public ActionResult singleIndex()
+        {
+            var userId = User.Identity.GetUserId();
+            var thisUser = db.Customer.Include(c=>c.Zipcode).Include(p=>p.Pickup).Where(c => c.UserId == userId).ToList();
+            return View(thisUser);
+        }
            
 
 
@@ -127,9 +134,15 @@ namespace GarbageCollector.Controllers
 
 
             }
-
-                return RedirectToAction("Index");
+            if (User.IsInRole("Customer"))
+            {
+                return RedirectToAction("singleIndex");
             }
+
+            return RedirectToAction("Index");
+
+
+        }
     
                 
             

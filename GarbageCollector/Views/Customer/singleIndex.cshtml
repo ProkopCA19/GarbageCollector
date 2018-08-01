@@ -1,10 +1,10 @@
 ﻿@model IEnumerable<GarbageCollector.Models.Customer>
 
 @{
-    ViewBag.Title = "Index";
+    ViewBag.Title = "singleIndex";
 }
 
-<h2>Index</h2>
+<h2>singleIndex</h2>
 
 <p>
     @Html.ActionLink("Create New", "Create")
@@ -32,12 +32,8 @@
         <th>
             @Html.DisplayNameFor(model => model.Zipcode.Areacode)
         </th>
-
         <th>
             @Html.DisplayNameFor(model => model.Pickup.DayOfWeek)
-        </th>
-        <th>
-            @Html.DisplayNameFor(model => model.Pickup.PickUpCompleted)
         </th>
         <th></th>
     </tr>
@@ -65,17 +61,14 @@
         <td>
             @Html.DisplayFor(modelItem => item.Zipcode.Areacode)
         </td>
-
+   
         <td>
             @Html.DisplayFor(modelItem => item.Pickup.DayOfWeek)
         </td>
-        <th>
-            @Html.DisplayFor(modelItem => item.Pickup.PickUpCompleted)
-        </th>
         <td>
-            @Html.ActionLink("Edit", "Edit", new { id = item.CustomerID }) |
-            @Html.ActionLink("Details", "Details", new { id = item.CustomerID }) |
-            @Html.ActionLink("Delete", "Delete", new { id = item.CustomerID })
+            @Html.ActionLink("Edit", "Edit", new { id=item.CustomerID }) |
+            @Html.ActionLink("Details", "Details", new { id=item.CustomerID }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.CustomerID })
         </td>
     </tr>
 }
