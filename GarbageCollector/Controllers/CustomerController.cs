@@ -60,7 +60,7 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,Zipcode,PickupDay,Areacode,DayOfWeek,BonusPickup")] CustomerViewModel cvm)
+            public ActionResult Create([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,Zipcode,PickupDay,Areacode,DayOfWeek")] CustomerViewModel cvm)
             {
                 string currentUserId = User.Identity.GetUserId();
                 var customer = new Customer();
@@ -72,7 +72,6 @@ namespace GarbageCollector.Controllers
                 customer.City = cvm.City;
                 customer.State = cvm.State;
                 customer.Trashbalance = cvm.Trashbalance;
-                customer.BonusPickup = cvm.BonusPickup;
                 customer.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
                 
          
@@ -104,10 +103,11 @@ namespace GarbageCollector.Controllers
                     cvm.City = cvm.customer.City;
                     cvm.State = cvm.customer.State;
                     cvm.Trashbalance = cvm.customer.Trashbalance;
-                    cvm.BonusPickup = cvm.BonusPickup;
+                    cvm.BonusPickup = cvm.customer.BonusPickup;
                     cvm.PickupDay = db.Pickup.Where(p => p.PickupID == cvm.customer.PickupId).FirstOrDefault().DayOfWeek;
                     cvm.Zipcode = db.Zipcode.Where(z => z.ZipId == cvm.customer.ZipId).FirstOrDefault().Areacode;
                     cvm.PickupCompleted = cvm.customer.Pickup.PickUpCompleted;
+                    
 
             if (customer == null)
                 {
@@ -121,7 +121,7 @@ namespace GarbageCollector.Controllers
             // more details see https://go.microsoft.com/fwlink/?LinkId=317598.
             [HttpPost]
             [ValidateAntiForgeryToken]
-            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,DayOfWeek,Zipcode,PickupDay,PickUpCompleted,Pickup")] CustomerViewModel cvm)
+            public ActionResult Edit([Bind(Include = "CustomerID,FirstName,LastName,Address,City,State,TrashBalance,ZipId,UserId,PickupID,DayOfWeek,Zipcode,PickupDay,PickUpCompleted,PickUpCompleted,BonusPickup")] CustomerViewModel cvm)
             {
             if (ModelState.IsValid)
             {
@@ -132,12 +132,12 @@ namespace GarbageCollector.Controllers
                 customerToEdit.City = cvm.City;
                 customerToEdit.State = cvm.State;
                 customerToEdit.Trashbalance = cvm.Trashbalance;
-                customerToEdit.BonusPickup = cvm.BonusPickup;
                 customerToEdit.ZipId = db.Zipcode.Where(z => z.Areacode == cvm.Zipcode).FirstOrDefault().ZipId;
+                customerToEdit.Pickup = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault();
                 customerToEdit.PickupId = db.Pickup.Where(p => p.DayOfWeek == cvm.PickupDay).FirstOrDefault().PickupID;
                 customerToEdit.Pickup.PickUpCompleted = cvm.PickupCompleted;
-
-
+                customerToEdit.BonusPickup = cvm.BonusPickup;
+           
                 db.SaveChanges();
 
 
@@ -147,13 +147,13 @@ namespace GarbageCollector.Controllers
                 return RedirectToAction("singleIndex");
             }
 
-            return RedirectToAction("Index");
+                return RedirectToAction("Index");
 
 
-        }
+            }
     
                 
-            
+          
 
             // GET: Customers/Delete/5
             public ActionResult Delete(int? id)

@@ -313,9 +313,9 @@
     <Content Include="Views\Customer\Create.cshtml" />
     <Content Include="Views\Customer\Index.cshtml" />
     <Content Include="Views\Shared\EmployeeLayout.cshtml" />
-    <Content Include="Views\Employee\FindCustomerByDay.cshtml" />
     <Content Include="Views\Customer\Dailypickups.cshtml" />
     <Content Include="Views\Customer\singleIndex.cshtml" />
+    <Content Include="Views\Customer\FindCustomerByDay.cshtml" />
   </ItemGroup>
   <ItemGroup>
     <Folder Include="App_Data\" />

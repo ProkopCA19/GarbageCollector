@@ -18,6 +18,7 @@ namespace GarbageCollector.Models
         public string State { get; set; }
         public double Trashbalance { get; set; }
         [Display(Name = "Bonus Pickup Day")]
+        [DataType(DataType.Date)]
         public DateTime? BonusPickup { get; set; }
         
 

@@ -19,6 +19,10 @@ namespace GarbageCollector.Models
         public string PickupDay { get; set; }
         public bool PickupCompleted { get; set; }
 
+        public Pickup pickup { get; set; }
+
+ 
+
         public DateTime? BonusPickup { get; set; }
        
     }
